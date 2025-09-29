@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import '../styles/avatarUploader.css';
+import '../styles/AvatarUploader.css';
 
 function AvatarUploader({ currentAvatar, userInitial }) {
   const [preview, setPreview] = useState(currentAvatar || null);
