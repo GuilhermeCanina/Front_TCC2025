@@ -16,6 +16,8 @@ function register(){
                 email,
                 senha
             });
+            alert('Usuário registrado com sucesso!');
+
         } catch (error) {
             console.error("Erro ao registrar usuário:", error);
         }
@@ -53,6 +55,7 @@ function register(){
                     />
                 </div>
                 <button type="submit">Cadastrar</button>
+                <button type="button" onClick={() => window.location.href = '/login'}>Já tenho uma conta</button>
             </form>
         </div>
     );

@@ -43,7 +43,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <div className="dashboard-sidebar">
         <div className="sidebar-header">
           <div className="sidebar-logo">S</div>
@@ -213,7 +212,6 @@ function Dashboard() {
         </div>
       </main>
 
-      {/* Chat flutuante */}
       <button className="chat-toggle" onClick={() => setChatOpen(!chatOpen)}>💬</button>
       <div className={`chat-window ${chatOpen ? 'active' : ''}`}>
         <ChatBox />

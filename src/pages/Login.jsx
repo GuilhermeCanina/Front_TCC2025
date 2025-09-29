@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode'; // Versão 3 do jwt-decode
+import jwt_decode from 'jwt-decode';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -16,17 +16,15 @@ function Login() {
 
       alert('Login bem-sucedido!');
 
-      // Salva o token
       localStorage.setItem('token', response.data.token);
 
-      // Decodifica o token e salva o usuário
       const decoded = jwt_decode(response.data.token);
       localStorage.setItem(
         'usuario',
         JSON.stringify({ id: decoded.id, email: decoded.email })
       );
 
-      console.log('Usuário logado:', decoded); // Mostra id e email no console
+      console.log('Usuário logado:', decoded); 
       navigate('/dashboard'); 
     } catch (err) {
       console.error('Erro no login:', err);
@@ -36,7 +34,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+
       <form onSubmit={handleLogin}>
         <input
           type="email"

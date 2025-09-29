@@ -15,32 +15,39 @@ function AvatarUploader({ currentAvatar, userInitial }) {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    setIsUploading(true);
-
-    const file = e.target.avatar.files[0];
+    const file = document.getElementById("avatar-upload").files[0];
     if (!file) {
       alert("Selecione uma imagem!");
-      setIsUploading(false);
       return;
     }
 
+    setIsUploading(true);
+
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append("file", file);
+    formData.append("upload_preset", "avatar_preset"); 
 
     try {
+      const resCloud = await fetch(
+        "https://api.cloudinary.com/v1_1/dzhxoyy6j/image/upload",
+        { method: "POST", body: formData }
+      );
+      const data = await resCloud.json();
+      const cloudUrl = data.secure_url;
+
+      setPreview(cloudUrl);
+
       const token = localStorage.getItem("token");
-      const res = await axios.put("https://api-tcc-senai2025.vercel.app/user/avatar", formData, {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "multipart/form-data"
-        }
-      });
+      await axios.put(
+        "https://api-tcc-senai2025.vercel.app/user/avatar",
+        { avatarUrl: cloudUrl },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       alert("Avatar atualizado com sucesso!");
-      setPreview(res.data.avatarUrl);
     } catch (err) {
       console.error(err);
-      alert("Erro ao enviar imagem");
+      alert("Erro ao atualizar avatar");
     } finally {
       setIsUploading(false);
     }

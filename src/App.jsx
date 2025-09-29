@@ -9,6 +9,7 @@ import LandingPage from './pages/LandingPage';
 import IniciarEstudo from './pages/IniciarEstudo';
 import Relatorio from './pages/Relatorio';
 import Medalhas from './pages/Medalhas';
+import Redacao from './pages/Redacao';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/sessao" element={<IniciarEstudo />} />
         <Route path="/relatorios" element={<Relatorio />} />
         <Route path="/medalhas" element={<Medalhas />} />
+        <Route path="/redacao" element={<Redacao />} />
       </Routes>
     </Router>
   );

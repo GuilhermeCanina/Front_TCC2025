@@ -1,6 +1,6 @@
-/* dashboard.css */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-/* Variáveis de cores */
+
 :root {
   --primary: #6c5ce7;
   --primary-dark: #5649c0;
@@ -17,7 +17,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 body {
@@ -274,8 +274,12 @@ body {
 }
 
 .btn-secondary {
-  background: #f0f0f0;
-  color: var(--text-dark);
+  background: #00cec9 !important; 
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .btn-success {
