@@ -27,6 +27,7 @@ function App() {
         <Route path="/relatorios" element={<Relatorio />} />
         <Route path="/medalhas" element={<Medalhas />} />
         <Route path="/redacao" element={<Redacao />} />
+        <Route path="*" element={<h1>Você está em águas desconhecidas</h1>} />
       </Routes>
     </Router>
   );
