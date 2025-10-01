@@ -43,7 +43,7 @@ function Dashboard() {
 
     const fetchStats = async () => {
       try {
-        const sessoesRes = await axios.get('https://api-tcc-senai2025.vercel.app/sessoes', {
+        const sessoesRes = await axios.get('https://api-tcc-senai2025.vercel.app/sessoes/user', {
           headers: { Authorization: `Bearer ${token}` }
         });
 

@@ -390,7 +390,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Janela de chat */
 .chat-window {
   position: fixed;
   bottom: 90px;

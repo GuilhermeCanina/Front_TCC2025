@@ -6,7 +6,6 @@ import { faUserPlus, faCogs, faRocket } from "@fortawesome/free-solid-svg-icons"
 export default function LandingPage() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Alterna o tema apenas na div do LandingPage
   function toggleTheme() {
     setDarkMode(!darkMode);
   }
@@ -41,17 +40,22 @@ export default function LandingPage() {
           <a href="login" className="btn btn-primary">Entrar</a>
         </nav>
 
-        <label className="switch">
-          <input 
+        <div className="toggle-container">
+          <input
             type="checkbox"
+            className="checkbox"
+            id="checkbox"
             checked={darkMode}
             onChange={toggleTheme}
           />
-          <span className="slider round"></span>
-        </label>
+          <label htmlFor="checkbox" className="checkbox-label">
+            <i className="fas fa-moon"></i>
+            <i className="fas fa-sun"></i>
+            <span className="ball"></span>
+          </label>
+        </div>
       </header>
 
-      {/* Seções do LandingPage */}
       <section className="hero">
         <div className="hero-content">
           <h1>Organize seus estudos com facilidade</h1>

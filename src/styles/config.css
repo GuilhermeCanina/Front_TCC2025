@@ -1,8 +1,6 @@
-/* config.css - Versão Refinada */
 
-/* Estilos Base Melhorados */
 .config-container {
-  max-width: 800px; /* Reduzi para melhor leitura */
+  max-width: 800px; 
   margin: 0 auto;
   padding: 2rem 1.5rem;
   color: var(--dark);
@@ -39,7 +37,6 @@
   font-weight: 600;
 }
 
-/* Seções Refinadas */
 .config-section {
   background: white;
   border-radius: 12px;
@@ -48,7 +45,6 @@
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* Containers de Componentes */
 .avatar-uploader-container,
 .name-changer-container {
   display: flex;
@@ -60,7 +56,6 @@
   margin-top: 0.8rem;
 }
 
-/* Sistema de Botões Refinado */
 .button-group {
   display: flex;
   justify-content: flex-end;
@@ -70,7 +65,7 @@
 }
 
 .btn {
-  min-width: 120px; /* Largura mínima para consistência */
+  min-width: 120px;
   padding: 0.85rem 1.8rem;
   border-radius: 8px;
   font-weight: 600;
@@ -86,7 +81,6 @@
   text-align: center;
 }
 
-/* Estilos Específicos de Botões */
 .btn-primary {
   background-color: var(--primary);
   color: white;
@@ -119,7 +113,6 @@
   background-color: #c0392b;
 }
 
-/* Efeitos de Foco e Ativo */
 .btn:focus {
   outline: 2px solid var(--secondary);
   outline-offset: 2px;
@@ -129,13 +122,11 @@
   transform: translateY(1px) !important;
 }
 
-/* Ícones */
 .icon {
   width: 18px;
   height: 18px;
 }
 
-/* Zona de Perigo */
 .danger-zone {
   border-left: 3px solid var(--danger);
   padding-left: 1.5rem;
@@ -151,7 +142,6 @@
   border-radius: 8px;
 }
 
-/* Responsividade Aprimorada */
 @media (max-width: 768px) {
   .config-container {
     padding: 1.5rem 1rem;

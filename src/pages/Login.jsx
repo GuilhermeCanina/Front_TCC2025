@@ -34,7 +34,7 @@ function Login() {
 
   return (
     <div className="login-container">
-
+      <h2>SynapLearn</h2>
       <form onSubmit={handleLogin}>
         <input
           type="email"
