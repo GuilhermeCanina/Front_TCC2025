@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../styles/relatorio.css";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
@@ -10,6 +11,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { FaChartBar, FaCalendarAlt, FaListAlt, FaCheck, FaTimes, FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -17,6 +20,7 @@ export default function Relatorio() {
   const [periodo, setPeriodo] = useState("7d");
   const [dados, setDados] = useState({ corretas: 0, erradas: 0, total: 0 });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRelatorio = async () => {
@@ -49,6 +53,10 @@ export default function Relatorio() {
 
     fetchRelatorio();
   }, [periodo]);
+
+  const voltarParaHome = () => {
+    navigate("/dashboard");
+  };
 
   const chartData = {
     labels: ["Acertos", "Erros"],
@@ -83,11 +91,20 @@ export default function Relatorio() {
 
   return (
     <div className="relatorios-container">
-      
+      <button onClick={voltarParaHome} className="btn-voltar">
+        <FaArrowLeft className="btn-icon" />
+        Voltar
+      </button>
+
       <div className="relatorios-header">
-        <h1>📊 Relatório de Desempenho</h1>
+        <h1>
+          <FaChartBar className="header-icon" />
+          Relatório de Desempenho
+        </h1>
+        
         <div className="relatorios-filtros">
           <label>
+            <FaCalendarAlt className="filter-icon" />
             Período:
             <select value={periodo} onChange={(e) => setPeriodo(e.target.value)}>
               <option value="1d">Último dia</option>
@@ -100,14 +117,23 @@ export default function Relatorio() {
 
       <div className="relatorios-cards">
         <div className="card-relatorio">
+          <div className="card-icon">
+            <FaListAlt />
+          </div>
           <h3>Total de Questões</h3>
           <p>{dados.total}</p>
         </div>
         <div className="card-relatorio">
+          <div className="card-icon correct">
+            <FaCheck />
+          </div>
           <h3>Acertos</h3>
           <p>{dados.corretas}</p>
         </div>
         <div className="card-relatorio">
+          <div className="card-icon wrong">
+            <FaTimes />
+          </div>
           <h3>Erros</h3>
           <p>{dados.erradas}</p>
         </div>
@@ -119,18 +145,6 @@ export default function Relatorio() {
         ) : (
           <Bar data={chartData} options={chartOptions} />
         )}
-      </div>
-
-      <div style={{ marginTop: "2rem", display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-        <button className="btn-relatorio" onClick={() => alert("Exportar PDF")}>
-          Exportar PDF
-        </button>
-        <button className="btn-relatorio" onClick={() => alert("Exportar CSV")}>
-          Exportar CSV
-        </button>
-        <button className="btn-relatorio" onClick={() => setPeriodo("7d")}>
-          Últimos 7 dias
-        </button>
       </div>
     </div>
   );

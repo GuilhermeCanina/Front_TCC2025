@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0d0d0f, #121212);
+  background: linear-gradient(135deg, #f5f7fa, #e4edf5);
   padding: 20px;
   font-family: "Space Grotesk", sans-serif;
   position: relative;
@@ -13,24 +13,24 @@
 }
 
 .login-container > form {
-  background: #1e1e24;
+  background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 0 25px rgba(108, 92, 231, 0.3);
+  box-shadow: 0 0 25px rgba(108, 92, 231, 0.2);
   padding: 40px;
   width: 100%;
   max-width: 380px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(108, 92, 231, 0.1);
   backdrop-filter: blur(12px);
 }
 
 .login-container > form:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 35px rgba(0, 245, 212, 0.4);
+  box-shadow: 0 0 35px rgba(108, 92, 231, 0.3);
 }
 
 .login-container h2 {
-  color: #f8f8f8;
+  color: #2d3748;
   font-size: 2rem;
   margin-bottom: 30px;
   text-align: center;
@@ -45,16 +45,17 @@
   border: none;
   border-radius: 10px;
   font-size: 1rem;
-  background: #2a2a32;
-  color: #f2f2f2;
+  background: #f7fafc;
+  color: #2d3748;
   transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .login-container input:focus {
   outline: none;
   border: 1px solid #6c5ce7;
-  box-shadow: 0 0 10px #6c5ce7;
-  background: #24242c;
+  box-shadow: 0 0 10px rgba(108, 92, 231, 0.3);
+  background: #ffffff;
 }
 
 .login-container input::placeholder {
@@ -76,29 +77,29 @@
 }
 
 .login-container button[type="submit"] {
-  background: linear-gradient(135deg, #6c5ce7, #00f5d4);
-  color: #121212;
+  background: linear-gradient(135deg, #6c5ce7, #00cec9);
+  color: #ffffff;
 }
 
 .login-container button[type="submit"]:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 0 20px #6c5ce7;
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
 }
 
 .login-container button[type="button"] {
   background: transparent;
   border: 1px solid #6c5ce7;
-  color: #f2f2f2;
+  color: #6c5ce7;
 }
 
 .login-container button[type="button"]:hover {
-  background: rgba(108, 92, 231, 0.15);
-  box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+  background: rgba(108, 92, 231, 0.1);
+  box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
   transform: translateY(-2px);
 }
 
 .error-message {
-  color: #ff6b6b;
+  color: #e53e3e;
   font-size: 0.9rem;
   margin-top: -10px;
   margin-bottom: 15px;
@@ -120,5 +121,3 @@
     padding: 12px;
   }
 }
-
-

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import { FaClock, FaStop, FaSearch, FaCheck, FaTimes, FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "../styles/iniciarestudo.css";
 
 export default function IniciarEstudo() {
   const [ano, setAno] = useState(2020);
-  const [limite, setLimite] = useState(5);
   const [questoes, setQuestoes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [respostas, setRespostas] = useState({});
@@ -13,6 +14,8 @@ export default function IniciarEstudo() {
   const [token, setToken] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const [materiaSelecionada, setMateriaSelecionada] = useState("Matematica");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -38,12 +41,35 @@ export default function IniciarEstudo() {
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
+  const anoselecionado = async () => {
+    if (ano < 2009 || ano > 2023) {
+      alert("Ano inválido. Escolha um ano entre 2009 e 2023.");
+      return false;
+    }
+    return true;
+  };
+
   const buscarQuestoes = async () => {
-    if (!user || !token) { alert("Você precisa estar logado para buscar questões."); return; }
+    if (!user || !token) { 
+      alert("Você precisa estar logado para buscar questões."); 
+      return; 
+    }
+
+    const anoValido = await anoselecionado();
+    if (!anoValido) return;
+
     setLoading(true);
     try {
-      const response = await axios.get(`https://api.enem.dev/v1/exams/${ano}/questions?limit=${limite}`);
-      setQuestoes(response.data.questions);
+      let url = "https://api-tcc-senai2025.vercel.app/questoes";
+
+      if (ano && materiaSelecionada) {
+        url = `https://api-tcc-senai2025.vercel.app/questoes/${ano}/materia/${materiaSelecionada}`;
+      } else if (ano) {
+        url = `https://api-tcc-senai2025.vercel.app/questoes/${ano}`;
+      }
+
+      const response = await axios.get(url);
+      setQuestoes(response.data);
       setRespostas({});
       setSeconds(0);
       setIsRunning(true);
@@ -57,7 +83,10 @@ export default function IniciarEstudo() {
   const encerrarSessao = async () => {
     setIsRunning(false);
     const minutos = Math.floor(seconds / 60);
-    if (minutos === 0) { alert("Sessão muito curta, não será salva."); return; }
+    if (minutos === 0) { 
+      alert("Sessão muito curta, não será salva."); 
+      return; 
+    }
     try {
       await axios.post(
         "https://api-tcc-senai2025.vercel.app/sessoes",
@@ -70,6 +99,16 @@ export default function IniciarEstudo() {
     } catch (err) {
       console.error("Erro ao salvar sessão:", err);
       alert("Erro ao salvar sessão");
+    }
+  };
+
+  const voltarParaHome = () => {
+    if (isRunning) {
+      if (window.confirm("Tem certeza que deseja voltar? A sessão atual será perdida.")) {
+        navigate("/dashboard");
+      }
+    } else {
+      navigate("/dashboard");
     }
   };
 
@@ -98,17 +137,55 @@ export default function IniciarEstudo() {
   return (
     <div className="container">
       <h1>Iniciar Estudo</h1>
-      <p className="timer">⏳ Tempo: {formatTime(seconds)}</p>
+
+      <div className="timer">
+        <FaClock className="timer-icon" />
+        <span>Tempo: {formatTime(seconds)}</span>
+      </div>
 
       <div className="inputs">
-        <label>Ano:
-          <input type="number" value={ano} onChange={e => setAno(e.target.value)} min="1998" max={new Date().getFullYear()} />
+        <label>
+          Ano:
+          <input 
+            type="number" 
+            value={ano} 
+            onChange={e => setAno(e.target.value)} 
+            min="2009" 
+            max="2023" 
+          />
         </label>
-        <label>Limite:
-          <input type="number" min="1" max="50" value={limite} onChange={e => setLimite(e.target.value)} />
+        
+        <label>
+          Matéria:
+          <select 
+            value={materiaSelecionada} 
+            onChange={e => setMateriaSelecionada(e.target.value)}
+          >
+            <option value="Matematica">Matemática</option>
+            <option value="Linguagens">Português</option>
+            <option value="Fisica">Física</option>
+            <option value="Quimica">Química</option>
+          </select>
         </label>
-        <button onClick={buscarQuestoes} disabled={loading}>{loading ? "Buscando..." : "Buscar Questões"}</button>
-        {isRunning && <button onClick={encerrarSessao} className="encerrar">⏹️ Encerrar Sessão</button>}
+        
+        <div className="botoes-acao">
+          <button onClick={buscarQuestoes} disabled={loading}>
+            <FaSearch className="button-icon" />
+            {loading ? "Buscando..." : "Buscar Questões"}
+          </button>
+          
+          {isRunning && (
+            <button onClick={encerrarSessao} className="encerrar">
+              <FaStop className="button-icon" />
+              Encerrar Sessão
+            </button>
+          )}
+          
+          <button onClick={voltarParaHome} className="voltar">
+            <FaArrowLeft className="button-icon" />
+            Voltar
+          </button>
+        </div>
       </div>
 
       {loading && <p className="loading">Carregando questões...</p>}
@@ -117,27 +194,44 @@ export default function IniciarEstudo() {
         const respostaUsuario = respostas[q.index];
         const respostaCorreta = q.alternatives.find(a => a.isCorrect)?.letter;
         const acertou = respostaUsuario === respostaCorreta;
-        const mensagem = respostaUsuario ? (acertou ? "✅ Resposta Correta!" : mensagensErradas[Math.floor(Math.random() * mensagensErradas.length)]) : "";
+        const mensagem = respostaUsuario ? 
+          (acertou ? "Resposta Correta!" : mensagensErradas[Math.floor(Math.random() * mensagensErradas.length)]) : "";
 
         return (
           <section key={q.index} className="questao-card">
             <h3>Questão {q.index}</h3>
             {q.context && <ReactMarkdown components={markdownComponents}>{q.context}</ReactMarkdown>}
             {q.alternativesIntroduction && <ReactMarkdown components={markdownComponents}>{q.alternativesIntroduction}</ReactMarkdown>}
+
             <ul className="alternativas">
               {q.alternatives.map(a => {
                 const isEscolhida = respostaUsuario === a.letter;
-                const mostrarCor = respostaUsuario ? (a.isCorrect ? "var(--success)" : isEscolhida ? "var(--danger)" : "inherit") : "inherit";
                 return (
                   <li key={a.letter}>
-                    <button onClick={() => escolherAlternativa(q.index, a.letter)} className={`alternativa ${isEscolhida ? "selecionada" : ""}`} style={{ color: mostrarCor }} disabled={!!respostaUsuario}>
-                      <strong>{a.letter}:</strong> {a.text}
+                    <button 
+                      onClick={() => escolherAlternativa(q.index, a.letter)} 
+                      className={`alternativa ${isEscolhida ? "selecionada" : ""}`}
+                      disabled={!!respostaUsuario}
+                    >
+                      <span className="alternativa-text">
+                        <strong>{a.letter}:</strong> {a.text}
+                      </span>
+                      <span className="alternativa-icon">
+                        {respostaUsuario && isEscolhida && (acertou ? <FaCheck className="correct" /> : <FaTimes className="wrong" />)}
+                        {respostaUsuario && a.isCorrect && !isEscolhida && <FaCheck className="correct" />}
+                      </span>
                     </button>
                   </li>
                 );
               })}
             </ul>
-            {respostaUsuario && <p className={`resultado ${acertou ? "correto" : "errado"}`}>{mensagem} {acertou ? "" : `A correta é ${respostaCorreta}.`}</p>}
+
+            {respostaUsuario && (
+              <div className={`resultado ${acertou ? "correto" : "errado"}`}>
+                {acertou ? <FaCheck className="resultado-icon" /> : <FaTimes className="resultado-icon" />}
+                <span>{mensagem} {acertou ? "" : `A correta é ${respostaCorreta}.`}</span>
+              </div>
+            )}
           </section>
         );
       })}

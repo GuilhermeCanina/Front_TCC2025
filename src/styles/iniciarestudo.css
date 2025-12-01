@@ -4,15 +4,19 @@
   padding: 2rem;
   color: var(--dark);
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  min-height: 100vh;
 }
 
 .container h1 {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
   color: var(--primary);
   text-align: center;
   position: relative;
-  padding-bottom: 0.8rem;
+  padding-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .container h1::after {
@@ -21,10 +25,37 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
+  width: 120px;
   height: 4px;
-  background: var(--secondary);
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+}
+
+.timer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: linear-gradient(135deg, #ffffff, #f8f9ff);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(108, 92, 231, 0.1);
+  margin-bottom: 2rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timer-icon {
+  font-size: 1.2em;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
 }
 
 .inputs {
@@ -32,11 +63,14 @@
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
+  align-items: flex-end;
   margin-bottom: 2rem;
-  padding: 1.5rem;
-  background-color: var(--light);
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .inputs label {
@@ -45,79 +79,182 @@
   gap: 0.5rem;
   font-weight: 600;
   color: var(--primary-dark);
+  flex: 1;
+  min-width: 150px;
 }
 
-.inputs input {
-  padding: 0.7rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.inputs input, .inputs select {
+  padding: 0.8rem 1.2rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
   font-size: 1rem;
-  min-width: 100px;
   transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.inputs input:focus {
+.inputs select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c5ce7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+.inputs input:focus, .inputs select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+  box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
+  transform: translateY(-2px);
 }
 
 .inputs button {
-  padding: 0.8rem 2rem;
-  background-color: var(--primary);
+  padding: 0.9rem 2.2rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  align-self: flex-end;
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 50px;
+}
+
+.inputs button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.inputs button:hover::before {
+  left: 100%;
 }
 
 .inputs button:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+}
+
+.inputs button:active {
+  transform: translateY(-1px);
+}
+
+.inputs button:disabled {
+  background: linear-gradient(135deg, #cccccc, #aaaaaa);
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Botão Encerrar Sessão */
+.encerrar {
+  background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3) !important;
+}
+
+.encerrar:hover {
+  box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4) !important;
+}
+
+/* Botão Voltar */
+.voltar {
+  background: linear-gradient(135deg, #6c757d, #495057) !important;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3) !important;
+}
+
+.voltar:hover {
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4) !important;
+}
+
+.button-icon {
+  font-size: 1em;
 }
 
 .loading {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--primary);
   margin: 2rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(108, 92, 231, 0.05));
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
 }
 
 .questao-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.8rem;
+  background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
+  border-radius: 16px;
+  padding: 2rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+.questao-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 16px 16px 0 0;
 }
 
 .questao-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .questao-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--primary-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
 }
 
 .context, .intro {
-  margin-bottom: 1rem;
-  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  color: #555;
 }
 
 .context {
   font-style: italic;
-  color: #555;
+  background: rgba(108, 92, 231, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
 }
 
 .intro {
   font-weight: 500;
+  color: #444;
+}
+
+.questao-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .alternativas {
@@ -131,76 +268,166 @@
 
 .alternativa {
   width: 100%;
-  padding: 0.9rem 1.2rem;
+  padding: 1rem 1.5rem;
   text-align: left;
-  background-color: var(--light);
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background: white;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .alternativa:hover:not(:disabled) {
-  background-color: rgba(108, 92, 231, 0.1);
+  background-color: rgba(108, 92, 231, 0.05);
   border-color: var(--primary);
+  transform: translateX(5px);
 }
 
 .alternativa.selecionada {
-  background-color: rgba(108, 92, 231, 0.15);
+  background-color: rgba(108, 92, 231, 0.1);
   border-color: var(--primary);
-  font-weight: 500;
+  font-weight: 600;
+  transform: translateX(5px);
 }
 
 .alternativa:disabled {
   cursor: not-allowed;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-.resultado {
-  font-weight: 600;
-  padding: 0.8rem;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 1rem;
+.alternativa-text {
+  flex: 1;
+  text-align: left;
 }
 
-.resultado.correto {
-  background-color: rgba(0, 184, 148, 0.1);
+.alternativa-icon {
+  margin-left: 1rem;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+}
+
+.alternativa-icon.correct {
   color: var(--success);
 }
 
-.resultado.errado {
-  background-color: rgba(214, 48, 49, 0.1);
+.alternativa-icon.wrong {
   color: var(--danger);
 }
 
+.resultado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.resultado.correto {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.15), rgba(0, 184, 148, 0.1));
+  color: var(--success);
+  border: 2px solid rgba(0, 184, 148, 0.3);
+}
+
+.resultado.errado {
+  background: linear-gradient(135deg, rgba(214, 48, 49, 0.15), rgba(214, 48, 49, 0.1));
+  color: var(--danger);
+  border: 2px solid rgba(214, 48, 49, 0.3);
+}
+
+.resultado-icon {
+  font-size: 1.2em;
+}
+
+/* Container dos botões de ação */
+.botoes-acao {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.botoes-acao button {
+  flex: 1;
+  min-width: 200px;
+}
+
 @media (max-width: 768px) {
-  .container {
-    padding: 1.5rem;
+  .container { 
+    padding: 1.5rem; 
   }
   
-  .inputs {
+  .container h1 { 
+    font-size: 2rem; 
+  }
+  
+  .timer { 
+    font-size: 1.1rem; 
+    padding: 0.7rem 1.2rem; 
+  }
+  
+  .inputs { 
+    flex-direction: column; 
+    gap: 1rem; 
+    padding: 1.5rem; 
+  }
+  
+  .inputs label { 
+    min-width: auto; 
+  }
+  
+  .inputs button { 
+    align-self: stretch; 
+    margin-top: 0.5rem; 
+  }
+  
+  .botoes-acao {
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.2rem;
   }
   
-  .inputs button {
-    align-self: stretch;
+  .botoes-acao button {
+    min-width: auto;
+  }
+  
+  .questao-card { 
+    padding: 1.5rem; 
+  }
+  
+  .alternativa {
+    padding: 0.9rem 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 1rem;
+  .container { 
+    padding: 1rem; 
   }
   
-  .container h1 {
-    font-size: 1.8rem;
+  .container h1 { 
+    font-size: 1.8rem; 
   }
   
-  .questao-card {
-    padding: 1.2rem;
+  .questao-card { 
+    padding: 1.2rem; 
+  }
+  
+  .alternativa {
+    padding: 0.8rem 1rem;
+  }
+  
+  .inputs button {
+    padding: 0.8rem 1.5rem;
   }
 }

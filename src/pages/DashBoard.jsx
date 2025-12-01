@@ -98,18 +98,13 @@ function Dashboard() {
           <div onClick={() => navigate('/config')} style={{ cursor: 'pointer' }}>
             <div className="user-avatar">
               {avatar ? (
-                <img
-                  src={avatar}
-                  alt="avatar"
-                  style={{ width: 100, height: 100, borderRadius: '50%' }}
-                />
+                <img src={avatar} alt="avatar" className="avatar-img" />
               ) : (
                 <div className="user-initial">{userInitial}</div>
               )}
             </div>
             <div className="user-info">
               <h3>{nomeUsuario || 'Usuário'}</h3>
-              <p>Premium Member</p>
             </div>
           </div>
         </div>
@@ -236,6 +231,10 @@ function Dashboard() {
           <button className="btn btn-cta" onClick={() => navigate('/sessao')}>
             <FiBook /> Iniciar Sessão de Estudo
           </button>
+
+            <button className="btn btn-purple" onClick={() => navigate('/redacao')}>
+    <FiBook /> Redação com IA
+  </button>
 
           <button className="btn btn-secondary" onClick={() => navigate('/relatorios')}>
             <FiBarChart2 /> Ver Relatórios
