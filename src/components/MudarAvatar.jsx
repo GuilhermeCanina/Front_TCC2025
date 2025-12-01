@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import '../styles/AvatarUploader.css';
+import "../styles/AvatarUploader.css";
 
 function AvatarUploader({ currentAvatar, userInitial }) {
   const [preview, setPreview] = useState(currentAvatar || null);
@@ -23,27 +23,24 @@ function AvatarUploader({ currentAvatar, userInitial }) {
 
     setIsUploading(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "avatar_preset"); 
-
     try {
-      const resCloud = await fetch(
-        "https://api.cloudinary.com/v1_1/dzhxoyy6j/image/upload",
-        { method: "POST", body: formData }
-      );
-      const data = await resCloud.json();
-      const cloudUrl = data.secure_url;
-
-      setPreview(cloudUrl);
+      const formData = new FormData();
+      formData.append("avatar", file);
 
       const token = localStorage.getItem("token");
-      await axios.put(
+
+      const res = await axios.put(
         "https://api-tcc-senai2025.vercel.app/user/avatar",
-        { avatarUrl: cloudUrl },
-        { headers: { Authorization: `Bearer ${token}` } }
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
+      setPreview(res.data.avatarUrl);
       alert("Avatar atualizado com sucesso!");
     } catch (err) {
       console.error(err);
@@ -67,15 +64,15 @@ function AvatarUploader({ currentAvatar, userInitial }) {
         <label htmlFor="avatar-upload" className="file-input-label">
           Escolher Imagem
         </label>
-        <input 
-          id="avatar-upload" 
-          type="file" 
-          name="avatar" 
-          accept="image/*" 
-          onChange={handleFileChange} 
+        <input
+          id="avatar-upload"
+          type="file"
+          name="avatar"
+          accept="image/*"
+          onChange={handleFileChange}
         />
         <button type="submit" disabled={isUploading}>
-          {isUploading ? 'Enviando...' : 'Enviar Avatar'}
+          {isUploading ? "Enviando..." : "Enviar Avatar"}
         </button>
       </form>
     </div>
