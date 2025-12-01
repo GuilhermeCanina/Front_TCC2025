@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 import ChatBox from './ChatBot';
 import axios from 'axios';
-import { FiHome, FiBook, FiBarChart2, FiAward, FiSettings, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiBook, FiBarChart2, FiAward, FiSettings, FiLogOut, FiMessageSquare} from 'react-icons/fi';
+
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -236,7 +237,7 @@ function Dashboard() {
     <FiBook /> Redação com IA
   </button>
 
-          <button className="btn btn-secondary" onClick={() => navigate('/relatorios')}>
+          <button className="btn btn-purple" onClick={() => navigate('/relatorios')}>
             <FiBarChart2 /> Ver Relatórios
           </button>
 
@@ -250,7 +251,9 @@ function Dashboard() {
         </div>
       </main>
 
-      <button className="chat-toggle" onClick={() => setChatOpen(!chatOpen)}>💬</button>
+<button className="chat-toggle" onClick={() => setChatOpen(!chatOpen)}>
+  <FiMessageSquare size={24} />
+</button>
       <div className={`chat-window ${chatOpen ? 'active' : ''}`}>
         <ChatBox />
       </div>

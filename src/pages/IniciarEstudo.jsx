@@ -163,8 +163,8 @@ export default function IniciarEstudo() {
           >
             <option value="Matematica">Matemática</option>
             <option value="Linguagens">Português</option>
-            <option value="Fisica">Física</option>
-            <option value="Quimica">Química</option>
+            <option value="ciencias-humanas">Ciências Humanas</option>
+            <option value="ciencias-natureza">Ciências Natureza</option>
           </select>
         </label>
         
