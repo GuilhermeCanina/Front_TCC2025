@@ -11,14 +11,25 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { FaChartBar, FaCalendarAlt, FaListAlt, FaCheck, FaTimes, FaArrowLeft } from "react-icons/fa";
+import { 
+  FaChartBar, 
+  FaCalendarAlt, 
+  FaListAlt, 
+  FaCheck, 
+  FaTimes, 
+  FaArrowLeft 
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function Relatorio() {
   const [periodo, setPeriodo] = useState("7d");
-  const [dados, setDados] = useState({ corretas: 0, erradas: 0, total: 0 });
+  const [dados, setDados] = useState({ 
+    corretas: 0, 
+    erradas: 0, 
+    total: 0 
+  });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -30,6 +41,7 @@ export default function Relatorio() {
 
       if (!usuarioId || !token) {
         alert("Faça login para ver o relatório");
+        navigate("/login");
         return;
       }
 
@@ -46,13 +58,13 @@ export default function Relatorio() {
         setDados(res.data);
       } catch (err) {
         console.error("Erro ao buscar relatório:", err);
-        alert("Erro ao buscar relatório");
+        alert("Erro ao buscar relatório. Tente novamente.");
       }
       setLoading(false);
     };
 
     fetchRelatorio();
-  }, [periodo]);
+  }, [periodo, navigate]);
 
   const voltarParaHome = () => {
     navigate("/dashboard");
@@ -66,16 +78,24 @@ export default function Relatorio() {
         data: [dados.corretas, dados.erradas],
         backgroundColor: ["#00b894", "#d63031"],
         borderRadius: 10,
-        barThickness: 30,
+        barThickness: 40,
+        hoverBackgroundColor: ["#00d3a9", "#ff4757"],
       },
     ],
   };
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: { display: false },
+      legend: { 
+        display: false 
+      },
       tooltip: { 
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleFont: { size: 14 },
+        bodyFont: { size: 14 },
         callbacks: {
           label: function(context) {
             return `${context.dataset.label}: ${context.raw}`;
@@ -84,8 +104,24 @@ export default function Relatorio() {
       }
     },
     scales: {
-      y: { beginAtZero: true, ticks: { stepSize: 1 } },
-      x: { grid: { display: false } }
+      y: { 
+        beginAtZero: true, 
+        ticks: { 
+          stepSize: 1,
+          font: { size: 12 }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      x: { 
+        grid: { 
+          display: false 
+        },
+        ticks: {
+          font: { size: 13, weight: '500' }
+        }
+      }
     },
   };
 
@@ -93,7 +129,7 @@ export default function Relatorio() {
     <div className="relatorios-container">
       <button onClick={voltarParaHome} className="btn-voltar">
         <FaArrowLeft className="btn-icon" />
-        Voltar
+        <span>Voltar</span>
       </button>
 
       <div className="relatorios-header">
@@ -105,8 +141,12 @@ export default function Relatorio() {
         <div className="relatorios-filtros">
           <label>
             <FaCalendarAlt className="filter-icon" />
-            Período:
-            <select value={periodo} onChange={(e) => setPeriodo(e.target.value)}>
+            <span>Período:</span>
+            <select 
+              value={periodo} 
+              onChange={(e) => setPeriodo(e.target.value)}
+              disabled={loading}
+            >
               <option value="1d">Último dia</option>
               <option value="7d">Últimos 7 dias</option>
               <option value="30d">Últimos 30 dias</option>
@@ -142,8 +182,12 @@ export default function Relatorio() {
       <div className="chart-container">
         {loading ? (
           <p>Carregando gráfico...</p>
+        ) : dados.total > 0 ? (
+          <div style={{ height: '350px' }}>
+            <Bar data={chartData} options={chartOptions} />
+          </div>
         ) : (
-          <Bar data={chartData} options={chartOptions} />
+          <p>Nenhum dado disponível para o período selecionado.</p>
         )}
       </div>
     </div>
