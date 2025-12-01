@@ -1,6 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaChartBar, FaComments, FaStar, FaCheck, FaArrowLeft } from "react-icons/fa";
+import {
+  FaEdit,
+  FaChartBar,
+  FaComments,
+  FaStar,
+  FaCheck,
+  FaArrowLeft,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../styles/redacao.css";
 
@@ -14,21 +21,21 @@ export default function Redacao() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const linhasArray = texto.split('\n');
-    const linhasContadas = linhasArray.length;
-    setLinhas(Math.min(linhasContadas, 30));
+    const linhasArray = texto.split("\n");
+    setLinhas(Math.min(linhasArray.length, 30));
   }, [texto]);
 
   const handleTextoChange = (e) => {
-    const novoTexto = e.target.value;
-    const linhasArray = novoTexto.split('\n');
-    
+    let novoTexto = e.target.value;
+
+    novoTexto = novoTexto.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+    const linhasArray = novoTexto.split("\n");
     if (linhasArray.length > 30) {
-      const textoLimitado = linhasArray.slice(0, 30).join('\n');
-      setTexto(textoLimitado);
-    } else {
-      setTexto(novoTexto);
+      novoTexto = linhasArray.slice(0, 30).join("\n");
     }
+
+    setTexto(novoTexto);
   };
 
   const enviarRedacao = async () => {
@@ -37,7 +44,10 @@ export default function Redacao() {
 
     setLoading(true);
     try {
-      const res = await axios.post("https://api-tcc-senai2025.vercel.app/api/redacao", { texto });
+      const res = await axios.post(
+        "https://api-tcc-senai2025.vercel.app/api/redacao",
+        { texto }
+      );
       setResultado(res.data);
     } catch (err) {
       console.error(err);
@@ -54,7 +64,11 @@ export default function Redacao() {
 
   const voltarParaHome = () => {
     if (texto && !resultado) {
-      if (window.confirm("Tem certeza que deseja voltar? Sua redação não foi corrigida ainda.")) {
+      if (
+        window.confirm(
+          "Tem certeza que deseja voltar? Sua redação não foi corrigida ainda."
+        )
+      ) {
         navigate("/dashboard");
       }
     } else {
@@ -83,7 +97,9 @@ export default function Redacao() {
           </h1>
           <div className="header-spacer"></div>
         </div>
-        <p className="subtitle">Escreva sua redação e receba feedback detalhado</p>
+        <p className="subtitle">
+          Escreva sua redação e receba feedback detalhado
+        </p>
       </div>
 
       <div className="redacao-content">
@@ -104,15 +120,17 @@ export default function Redacao() {
           <div className="area-texto-container">
             <div className="indicador-linhas">
               {Array.from({ length: 30 }, (_, i) => (
-                <div 
-                  key={i} 
-                  className={`linha-numero ${i + 1 === 30 ? 'ultima-linha' : ''} ${i < linhas ? 'linha-preenchida' : ''}`}
+                <div
+                  key={i}
+                  className={`linha-numero ${
+                    i + 1 === 30 ? "ultima-linha" : ""
+                  } ${i < linhas ? "linha-preenchida" : ""}`}
                 >
                   {i + 1}
                 </div>
               ))}
             </div>
-            
+
             <textarea
               ref={textareaRef}
               value={texto}
@@ -124,25 +142,23 @@ export default function Redacao() {
           </div>
 
           <div className="contador-info">
-            <span className="contador-linhas">
-              Linhas: {linhas}/30
-            </span>
+            <span className="contador-linhas">Linhas: {linhas}/30</span>
             <span className="contador-caracteres">
               Caracteres: {texto.length}
             </span>
           </div>
 
           <div className="botoes-acao">
-            <button 
-              onClick={enviarRedacao} 
+            <button
+              onClick={enviarRedacao}
               disabled={loading || !texto.trim()}
               className="btn-enviar"
             >
               <FaChartBar className="btn-icon" />
               {loading ? "Corrigindo..." : "Enviar para Correção"}
             </button>
-            
-            <button 
+
+            <button
               onClick={limparRedacao}
               disabled={loading}
               className="btn-limpar"
@@ -157,16 +173,32 @@ export default function Redacao() {
             <div className="placeholder-feedback">
               <FaComments className="placeholder-icon" />
               <h3>Feedback da Redação</h3>
-              <p>Envie sua redação para receber uma correção detalhada baseada nas 5 competências do ENEM.</p>
-              
+              <p>
+                Envie sua redação para receber uma correção detalhada baseada
+                nas 5 competências do ENEM.
+              </p>
+
               <div className="competencias-info">
                 <h4>Competências Avaliadas:</h4>
                 <ul>
-                  <li><FaCheck className="competencia-icon" /> Domínio da norma culta</li>
-                  <li><FaCheck className="competencia-icon" /> Compreensão do tema</li>
-                  <li><FaCheck className="competencia-icon" /> Argumentação e organização</li>
-                  <li><FaCheck className="competencia-icon" /> Coesão textual</li>
-                  <li><FaCheck className="competencia-icon" /> Proposta de intervenção</li>
+                  <li>
+                    <FaCheck className="competencia-icon" /> Domínio da norma
+                    culta
+                  </li>
+                  <li>
+                    <FaCheck className="competencia-icon" /> Compreensão do tema
+                  </li>
+                  <li>
+                    <FaCheck className="competencia-icon" /> Argumentação e
+                    organização
+                  </li>
+                  <li>
+                    <FaCheck className="competencia-icon" /> Coesão textual
+                  </li>
+                  <li>
+                    <FaCheck className="competencia-icon" /> Proposta de
+                    intervenção
+                  </li>
                 </ul>
               </div>
             </div>
@@ -181,43 +213,81 @@ export default function Redacao() {
               </div>
 
               <div className="competencias-grid">
-                <div className={`competencia ${getNotaColor(resultado.competencia1)}`}>
+                <div
+                  className={`competencia ${getNotaColor(
+                    resultado.competencia1
+                  )}`}
+                >
                   <span className="competencia-numero">C1</span>
                   <div className="competencia-info">
-                    <span className="competencia-titulo">Domínio da Norma Culta</span>
-                    <span className="competencia-nota">{resultado.competencia1} pontos</span>
+                    <span className="competencia-titulo">
+                      Domínio da Norma Culta
+                    </span>
+                    <span className="competencia-nota">
+                      {resultado.competencia1} pontos
+                    </span>
                   </div>
                 </div>
 
-                <div className={`competencia ${getNotaColor(resultado.competencia2)}`}>
+                <div
+                  className={`competencia ${getNotaColor(
+                    resultado.competencia2
+                  )}`}
+                >
                   <span className="competencia-numero">C2</span>
                   <div className="competencia-info">
-                    <span className="competencia-titulo">Compreensão do Tema</span>
-                    <span className="competencia-nota">{resultado.competencia2} pontos</span>
+                    <span className="competencia-titulo">
+                      Compreensão do Tema
+                    </span>
+                    <span className="competencia-nota">
+                      {resultado.competencia2} pontos
+                    </span>
                   </div>
                 </div>
 
-                <div className={`competencia ${getNotaColor(resultado.competencia3)}`}>
+                <div
+                  className={`competencia ${getNotaColor(
+                    resultado.competencia3
+                  )}`}
+                >
                   <span className="competencia-numero">C3</span>
                   <div className="competencia-info">
-                    <span className="competencia-titulo">Seleção de Argumentos</span>
-                    <span className="competencia-nota">{resultado.competencia3} pontos</span>
+                    <span className="competencia-titulo">
+                      Seleção de Argumentos
+                    </span>
+                    <span className="competencia-nota">
+                      {resultado.competencia3} pontos
+                    </span>
                   </div>
                 </div>
 
-                <div className={`competencia ${getNotaColor(resultado.competencia4)}`}>
+                <div
+                  className={`competencia ${getNotaColor(
+                    resultado.competencia4
+                  )}`}
+                >
                   <span className="competencia-numero">C4</span>
                   <div className="competencia-info">
                     <span className="competencia-titulo">Coesão Textual</span>
-                    <span className="competencia-nota">{resultado.competencia4} pontos</span>
+                    <span className="competencia-nota">
+                      {resultado.competencia4} pontos
+                    </span>
                   </div>
                 </div>
 
-                <div className={`competencia ${getNotaColor(resultado.competencia5)}`}>
+                <div
+                  className={`competencia ${getNotaColor(
+                    resultado.competencia5
+                  )}`}
+                >
                   <span className="competencia-numero">C5</span>
                   <div className="competencia-info">
-                    <span className="competencia-titulo">Proposta de Intervenção</span>
-                    <span className="competencia-nota">{resultado.competencia5} pontos</span>
+                    <span className="competencia-titulo">
+                      Proposta de Intervenção
+                    </span>
+                    <span className="competencia-nota">
+                      {resultado.competencia5} pontos
+                    </span>
                   </div>
                 </div>
               </div>
@@ -228,14 +298,14 @@ export default function Redacao() {
                     <FaComments className="comentarios-icon" />
                     Comentários do Corretor
                   </h4>
-                  <p>{resultado.comentarios}</p>
+                  {/* Para exibir quebras de linha corretamente */}
+                  <p style={{ whiteSpace: "pre-wrap" }}>
+                    {resultado.comentarios}
+                  </p>
                 </div>
               )}
 
-              <button 
-                onClick={limparRedacao}
-                className="btn-nova-redacao"
-              >
+              <button onClick={limparRedacao} className="btn-nova-redacao">
                 <FaEdit className="btn-icon" />
                 Nova Redação
               </button>
