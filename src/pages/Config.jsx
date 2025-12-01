@@ -1,13 +1,28 @@
+import { useNavigate } from 'react-router-dom';
 import AvatarUploader from '../components/MudarAvatar';
 import MudarNome from '../components/MudarNome';
 import ExcluirConta from '../components/ExcluirConta';
 import MudarEmail from '../components/MudarEmail';
 import '../styles/config.css';
+import { FiArrowLeft } from 'react-icons/fi'; // Importe o ícone
 
 function Config() {
+  const navigate = useNavigate();
+
   return (
     <div className="config-container">
-      <h1>Configurações</h1>
+      {/* Cabeçalho com botão de voltar */}
+      <div className="config-header">
+        <button 
+          className="btn-voltar"
+          onClick={() => navigate(-1)}
+          aria-label="Voltar"
+        >
+          <FiArrowLeft size={20} />
+          <span>Voltar</span>
+        </button>
+        <h1>Configurações</h1>
+      </div>
       
       <section className="config-section">
         <h2>Alterar Avatar</h2>

@@ -1,4 +1,3 @@
-
 .config-container {
   max-width: 800px; 
   margin: 0 auto;
@@ -6,6 +5,62 @@
   color: var(--dark);
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   line-height: 1.6;
+  position: relative;
+}
+
+.config-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.8rem;
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.config-header h1 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 0.8rem;
+}
+
+.btn-voltar {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem 0.6rem 0.8rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
+  z-index: 10;
+}
+
+.btn-voltar:hover {
+  background: var(--primary-dark);
+  transform: translateY(-50%) translateX(-3px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.btn-voltar:active {
+  transform: translateY(-50%) translateX(0);
+}
+
+.btn-voltar svg {
+  transition: transform 0.2s ease;
+}
+
+.btn-voltar:hover svg {
+  transform: translateX(-2px);
 }
 
 .config-container h1 {
@@ -13,7 +68,6 @@
   margin-bottom: 1.8rem;
   color: var(--primary);
   font-weight: 700;
-  text-align: center;
   position: relative;
   padding-bottom: 0.8rem;
 }
@@ -46,7 +100,8 @@
 }
 
 .avatar-uploader-container,
-.name-changer-container {
+.name-changer-container,
+.email-changer-container {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -147,6 +202,26 @@
     padding: 1.5rem 1rem;
   }
   
+  .config-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-voltar {
+    position: static;
+    transform: none;
+    align-self: flex-start;
+    width: auto;
+    margin-bottom: 0.5rem;
+  }
+  
+  .config-header h1 {
+    order: 1;
+    margin-top: 0.5rem;
+  }
+  
   .button-group {
     flex-direction: column;
     gap: 0.8rem;
@@ -154,6 +229,10 @@
   
   .btn {
     width: 100%;
+  }
+  
+  .config-section {
+    padding: 1.5rem;
   }
 }
 
@@ -167,7 +246,35 @@
   }
   
   .avatar-uploader-container,
-  .name-changer-container {
+  .name-changer-container,
+  .email-changer-container {
     padding: 1.2rem;
+  }
+  
+  .btn-voltar {
+    padding: 0.5rem 0.8rem 0.5rem 0.7rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-voltar span {
+    display: none; 
+  }
+  
+  .btn-voltar svg {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .btn-voltar {
+    padding: 0.6rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+  }
+  
+  .btn-voltar span {
+    display: none;
   }
 }

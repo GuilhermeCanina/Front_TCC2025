@@ -42,7 +42,6 @@
   border-radius: 4px;
 }
 
-/* TIMER */
 .timer {
   display: inline-flex;
   align-items: center;
@@ -68,7 +67,6 @@
   color: var(--primary);
 }
 
-/* INPUTS */
 .inputs {
   display: flex;
   flex-wrap: wrap;
@@ -119,7 +117,6 @@
   box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
 }
 
-/* BOTÕES */
 .inputs button {
   padding: 0.9rem 1.5rem;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -171,7 +168,6 @@
   font-size: 1em;
 }
 
-/* LOADING */
 .loading {
   text-align: center;
   font-size: 1.1rem;
@@ -183,7 +179,6 @@
   border-left: 4px solid var(--primary);
 }
 
-/* QUESTÃO CARD */
 .questao-card {
   background: white;
   border-radius: 16px;
@@ -240,7 +235,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ALTERNATIVAS */
 .alternativas {
   list-style: none;
   padding: 0;
@@ -300,7 +294,6 @@
   color: var(--danger);
 }
 
-/* RESULTADO */
 .resultado {
   display: flex;
   align-items: center;
@@ -330,7 +323,6 @@
   font-size: 1.2em;
 }
 
-/* BOTÕES AÇÃO */
 .botoes-acao {
   display: flex;
   gap: 1rem;
@@ -345,9 +337,7 @@
   max-width: 100%;
 }
 
-/* RESPONSIVIDADE */
 
-/* Desktop (1024px+) */
 @media (min-width: 1024px) {
   .container {
     max-width: 900px;
@@ -383,7 +373,6 @@
   }
 }
 
-/* Tablet (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .container {
     max-width: 95%;
@@ -411,7 +400,6 @@
   }
 }
 
-/* Mobile (480px - 767px) */
 @media (max-width: 767px) {
   .container {
     padding: 1rem;
@@ -480,7 +468,6 @@
   }
 }
 
-/* Mobile Pequeno (até 479px) */
 @media (max-width: 479px) {
   .container {
     padding: 0.8rem;
@@ -534,7 +521,6 @@
   }
 }
 
-/* Orientação Paisagem (telas mais largas que altas) */
 @media (max-height: 600px) and (orientation: landscape) {
   .container {
     padding: 1rem;
